@@ -5,6 +5,7 @@ import com.aconex.tech.api.*;
 import com.aconex.tech.core.ServiceFactory;
 import com.aconex.tech.core.Services;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import java.io.File;
 
@@ -12,6 +13,13 @@ import java.io.File;
 public class VoteServiceTest {
     File resourcesDirectory = new File("src/test/java/com/aconex/tech/resources/CandidateList.txt");
 
+    @Before
+    public void setUp(){
+        final Services services = ServiceFactory.createServices(resourcesDirectory.getAbsolutePath ());
+        CandidateListService candidateListService = services.getCandidateListService ();
+        VoteService voteService = services.getVoteService ();
+        candidateListService.readCandidateList (resourcesDirectory.getAbsolutePath ());
+    }
     @Test
     public void casteVoteTest1() {
         final Services services = ServiceFactory.createServices(resourcesDirectory.getAbsolutePath ());
@@ -24,6 +32,49 @@ public class VoteServiceTest {
         if (services.getVoteService ().getGlobalVoteListsize ()> 0) {
             System.out.println ("Test successful" );
         }
+    }
+
+    @Test
+    public void casteVoteTest2() {
+        final Services services = ServiceFactory.createServices(resourcesDirectory.getAbsolutePath ());
+        CandidateListService candidateListService = services.getCandidateListService ();
+        VoteService voteService = services.getVoteService ();
+        candidateListService.readCandidateList (resourcesDirectory.getAbsolutePath ());
+        String sampleVote = "ABCD";
+        Vote v1=new Vote  (sampleVote,services.getCandidateListService ( ).getVotingTemplate ( ));
+        Assert.assertEquals (Integer.parseInt (String.valueOf (v1.voteMap.get ('A'))), 1);
+        Assert.assertEquals (Integer.parseInt (String.valueOf (v1.voteMap.get ('B'))), 2);
+        Assert.assertEquals (Integer.parseInt (String.valueOf (v1.voteMap.get ('C'))), 3);
+        Assert.assertEquals (Integer.parseInt (String.valueOf (v1.voteMap.get ('D'))), 4);
+    }
+
+    @Test
+    public void casteVoteTest3() {
+        final Services services = ServiceFactory.createServices(resourcesDirectory.getAbsolutePath ());
+        CandidateListService candidateListService = services.getCandidateListService ();
+        VoteService voteService = services.getVoteService ();
+        candidateListService.readCandidateList (resourcesDirectory.getAbsolutePath ());
+        String sampleVote = "BA";
+        Vote v3=new Vote  (sampleVote,services.getCandidateListService ( ).getVotingTemplate ( ));
+        Assert.assertEquals (Integer.parseInt (String.valueOf (v3.voteMap.get ('A'))), 2);
+        Assert.assertEquals (Integer.parseInt (String.valueOf (v3.voteMap.get ('B'))), 1);
+        System.out.println (String.valueOf (v3.voteMap.get ('C')));
+        Assert.assertEquals (Integer.parseInt (String.valueOf (v3.voteMap.get ('C'))), 0);
+        Assert.assertEquals (Integer.parseInt (String.valueOf (v3.voteMap.get ('D'))), 0);
+    }
+
+    @Test
+    public void casteVoteTest4() {
+        final Services services = ServiceFactory.createServices(resourcesDirectory.getAbsolutePath ());
+        CandidateListService candidateListService = services.getCandidateListService ();
+        VoteService voteService = services.getVoteService ();
+        candidateListService.readCandidateList (resourcesDirectory.getAbsolutePath ());
+        String sampleVote = "";
+        Vote v4=new Vote  (sampleVote,services.getCandidateListService ( ).getVotingTemplate ( ));
+        Assert.assertEquals (Integer.parseInt (String.valueOf (v4.voteMap.get ('A'))), 0);
+        Assert.assertEquals (Integer.parseInt (String.valueOf (v4.voteMap.get ('B'))), 0);
+        Assert.assertEquals (Integer.parseInt (String.valueOf (v4.voteMap.get ('C'))), 0);
+        Assert.assertEquals (Integer.parseInt (String.valueOf (v4.voteMap.get ('D'))), 0);
     }
 
     @Test

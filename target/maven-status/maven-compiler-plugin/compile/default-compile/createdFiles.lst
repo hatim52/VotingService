@@ -1,0 +1,14 @@
+com\aconex\tech\core\Services.class
+com\aconex\tech\Implementation\CandidateListImpl.class
+com\aconex\tech\core\AbstractService.class
+com\aconex\tech\api\CandidateListService.class
+com\aconex\tech\core\ServiceFactory.class
+com\aconex\tech\exceptions\MissingResourceException.class
+com\aconex\tech\utilities\ArgumentValidator.class
+com\aconex\tech\api\VoteService.class
+com\aconex\tech\exceptions\UnAuthorizedException.class
+com\aconex\tech\api\Vote.class
+com\aconex\tech\api\CandidateList.class
+com\aconex\tech\api\TallyService.class
+com\aconex\tech\Implementation\VoteImpl.class
+com\aconex\tech\Implementation\TallyImpl.class
